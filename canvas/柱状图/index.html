@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+
+var data = [
+    {
+        name:'闫树茂',
+        grade:100,
+    },
+    {
+        name:'任建坤',
+        grade:70,
+    },
+    {
+        name:'王蕾',
+        grade:75,
+    },
+    {
+        name:'周嘉庚',
+        grade:80,
+    },
+    {
+        name:'史佳宝',
+        grade:55,
+    },
+]
+
+
+//求出最大数
+// var max = JSON.parse(JSON.stringify(data)).sort(function(a,b){
+//     return b.grade - a.grade;
+// })
+
+//求出最大数
+var max = JSON.parse(JSON.stringify(data)).sort((a,b)=>b.grade - a.grade)[0].grade;
+
+
+//创建随机色数组
+var color = [];
+for(var i = 0;i<data.length;i++){
+    color.push(rancolor());
+}
+
+    var canvas = document.createElement('canvas');
+    canvas.width = 500;
+    canvas.height = 500;
+    canvas.style.border = 'solid 1px red';
+    document.body.appendChild(canvas);
+    var dd = canvas.getContext('2d');
+
+    function drawz (){
+        
+    }
+    //垂直线
+    dd.beginPath();
+    dd.translate(50,450);
+
+    dd.moveTo(0,0);
+    dd.lineTo(0,-400);
+
+    dd.moveTo(0,0);
+    dd.lineTo(400,0);
+    dd.stroke();
+
+dd.textAlign = 'end';
+dd.textBaseline = 'middle'
+
+    dd.beginPath();
+     //画刻度
+     for(var i = 50; i<=400; i+=50){
+        dd.moveTo(0,-i);
+        dd.lineTo(400,-i);
+        console.log(i)
+        dd.fillText(i/400*max,-3,-i)//填充文字  ，x ，y
+     }
+     dd.stroke();
+
+     //设置margin值  
+     var margin = 400/(data.length+1);
+     dd.save();
+     dd.textAlign = 'center';
+     //渲染数据
+      for(var i = 0;i<data.length;i++){
+        var h = data[i].grade/100*400;
+        dd.beginPath();
+        dd.fillStyle = color[i];
+        dd.rect(margin*(i+1)-10,0,20,-h);
+        dd.fill();
+        dd.fillText(data[i].name,margin*(i+1),10);//写入名字
+        dd.fillText(data[i].grade,margin*(i+1),-h-10)//写入成绩
+      }
+      dd.restore();
+
+      //随机颜色
+      function rancolor (){
+          return `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},1)`
+      }
+     
+
+      canvas.onmousemove = function(e){
+        console.log(e.offsetX,e.offsetY);
+        // clearRect()
+      }
+
+
+
+
+</script>
+</html>

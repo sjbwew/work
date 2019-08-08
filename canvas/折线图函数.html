@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="can" width="400" height="400" style="border: 1px solid #ccc"></canvas>
+    1
+</body>
+<script>
+
+    // 创建canvas元素
+    var canvas = document.createElement('canvas');
+
+    // 设置canvas宽高及边框
+    canvas.width = 500;
+    canvas.height = 500;
+    canvas.style.border = '1px solid #ccc';
+
+    // 将canvas添加至页面中
+    document.body.appendChild(canvas);
+
+    // 获取canvas上下文
+    var ctx = canvas.getContext('2d');
+
+    var data = [
+        {
+            name: '小西',
+            grade: 80,
+        },
+        {
+            name: '小贝',
+            grade: 60,
+        },
+        {
+            name: '小东',
+            grade: 100,
+        },
+        {
+            name: '小宇',
+            grade: 59,
+        },
+        {
+            name: '小芳',
+            grade: 58,
+        },
+        {
+            name: '小芳芳',
+            grade: 120,
+        },
+        {
+            name: '小宇宇',
+            grade: 150,
+        }
+    ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function LineChart(data, canvas) {
+        this.canvas = canvas;
+        this.cWidth = this.canvas.clientWidth;
+        this.cHeight = this.canvas.clientHeight;
+        console.log(this.cWidth, this.cHeight);
+
+        this.yLength = Math.floor(this.canvas.clientHeight * .9);
+        console.log(this.yLength, 'yyy')
+        this.xLength = Math.floor(this.canvas.clientWidth * .9);
+        this.scale = Math.floor(this.canvas.clientWidth * .1 / 2);
+        this.ctx = this.canvas.getContext('2d');
+        this.data = data;
+        // 请求最大值
+        // json字符串
+        var newArr = JSON.parse(JSON.stringify(this.data));
+        this.maxVal = newArr.sort(function (a, b) {
+            return b.grade - a.grade;
+        })[0].grade;
+
+        // 间距
+        this.margin = this.yLength / (this.data.length + 1);
+        // 位移原点(起点)
+        console.log(this.scale, this.scale + this.yLength, '挪动的位置');
+        this.ctx.translate(this.scale, this.scale + this.yLength);
+
+        // 画坐标
+        this.baseXY();
+        // 画刻度
+        this.drawScale();
+        // 画数据
+        this.drawData();
+
+    }
+
+    LineChart.prototype = {
+        constructor: LineChart,
+        baseXY() {
+            this.ctx.beginPath();
+            // Y轴
+            this.ctx.moveTo(0, 0);
+            this.ctx.lineTo(0, -this.yLength);
+            // X轴
+            this.ctx.moveTo(0, 0);
+            this.ctx.lineTo(this.xLength, 0);
+
+            this.ctx.stroke();
+        },
+
+        drawScale() {
+            this.ctx.save();
+            this.ctx.textAlign = 'end'; // 文字水平排列方式: start  end  center
+            this.ctx.textBaseline = 'middle'; // 文字垂直排列方式: top middle bottom
+            // 画刻度
+            for (var i = this.scale; i <= this.yLength; i += this.scale) {
+                this.ctx.beginPath();
+                this.ctx.moveTo(-3, -i);
+                this.ctx.lineTo(this.xLength, -i);
+
+                // 填充文字， X  ， Y
+                this.ctx.fillText(Math.floor((i / this.xLength) * this.maxVal), -3, -i);
+                this.ctx.stroke();
+            }
+            this.ctx.restore();
+        },
+
+        drawData() {
+            // var ctx = this.ctx;
+            // var data = this.data;
+            // var margin = this.margin;
+            // var maxVal = this.maxVal;
+            var { ctx, data, margin, maxVal } = this;
+            ctx.save();
+            ctx.textAlign = 'center';
+            // 渲染数据
+            ctx.beginPath();
+            //         间距     y轴必须是负数
+            ctx.moveTo(margin, -(data[0].grade / maxVal) * this.yLength);
+            for (var i = 0; i < data.length; i++) {
+                // console.log((i + 1) * margin, (data[i].grade / 100) * 400);
+                // 每一个点
+                ctx.lineTo((i + 1) * margin, -(data[i].grade / maxVal) * this.yLength);
+
+                // 分数渲染
+                ctx.fillText(data[i].grade, (i + 1) * margin, -(data[i].grade / maxVal) * this.yLength - 10);
+                // 每一个同学
+                ctx.fillText(data[i].name, (i + 1) * margin, 10);
+            }
+            ctx.stroke();
+            ctx.restore();
+        }
+    }
+    new LineChart(data, canvas);
+
+
+    var can = document.getElementById('can');
+
+    new LineChart(data, can);
+</script>
+
+</html>

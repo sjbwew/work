@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var canvas = document.createElement('canvas');
+
+    canvas.width = 500;
+    canvas.height = 500;
+    canvas.style.border = `solid 2px red`;
+    document.body.appendChild(canvas);
+
+    var dd = canvas.getContext('2d');
+
+    dd.rect(50, 50, -1, 400);
+    dd.fill();
+
+    dd.beginPath();
+    dd.translate(50, 450);
+    dd.moveTo(400, 0);
+    dd.lineTo(0, 0);
+    dd.stroke();
+
+
+
+
+
+
+
+    var data = [
+        {
+        name:'a',
+        grade:60,
+    },
+    {
+        name:'b',
+        grade:80,
+    },
+    {
+        name:'c',
+        grade:100,
+    },
+    {
+        name:'d',
+        grade:40,
+    },
+    {
+        name:'e',
+        grade:75,
+    },
+    ]
+
+    var newArr = JSON.parse(JSON.stringify(data)) ;
+    var maxVal = newArr.sort(function(a,b){
+        return b.grade - a.grade
+    })[0].grade
+    console.log(maxVal);
+
+
+    dd.textAlign = 'end';
+    dd.textBaseline = 'middle';
+
+    //画刻度
+    for(var i = 50 ;i<=400;i+=50){
+        dd.beginPath();
+        dd.moveTo(-3,-i);
+        dd.lineTo(400,-i);
+       
+                       //填充文字 ， x， y
+        dd.fillText((i/400)*maxVal,-3,-i);
+        dd.stroke();
+    }
+
+    //渲染
+    dd.textAlign = 'center';
+    let margin = 400 / (data.length+1);
+    dd.beginPath();
+    dd.moveTo(margin,-(data[0].grade/100*400))
+    for(var i = 0;i<data.length;i++){
+       dd.lineTo((i+1)*margin,-(data[i].grade/100*400));
+       dd.fillText(data[i].name,(i+1)*margin,10)
+    }
+    dd.stroke();
+
+</script>
+
+</html>

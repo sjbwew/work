@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    
+</body>
+<script>
+    var canvas = document.createElement('canvas');
+    canvas.width = 500;
+    canvas.height = 500;
+    canvas.style.border = 'solid 1px red';
+    document.body.appendChild(canvas);
+    var dd = canvas.getContext('2d');
+
+
+    //网格
+    for(var i = 50;i<500;i+=50){
+        //x轴网格
+        dd.beginPath();
+        dd.moveTo(0,i);
+        dd.lineTo(500,i);
+        dd.lineTo(0,i);
+
+        
+        //y轴网格
+        dd.moveTo(i,0);
+        dd.lineTo(i,0);
+        dd.lineTo(i,500);
+        dd.stroke();
+    }
+
+//头
+dd.beginPath();
+dd.strokeStyle = 'green';
+dd.fillStyle = 'green';
+dd.moveTo(250,140);
+dd.arc(250,140,100,0,Math.PI*1,true);
+dd.fill();
+// dd.stroke();
+
+//头须左
+dd.save();
+dd.beginPath();
+dd.lineWidth = 8;
+dd.lineCap = 'round';
+dd.moveTo(140,20);
+dd.lineTo(200,100);
+dd.stroke();
+dd.restore();
+
+//头须右
+dd.save();
+dd.beginPath();
+dd.lineWidth = 8;
+dd.lineCap = 'round';
+dd.moveTo(360,20);
+dd.lineTo(300,100);
+dd.stroke();
+dd.restore();
+
+
+//左胳膊
+dd.save();
+dd.beginPath();
+dd.lineWidth = 40;
+dd.lineCap = 'round';
+
+// 下笔
+dd.moveTo(120, 160);
+dd.strokeStyle = 'green';
+// 起笔
+dd.lineTo(120, 280);
+dd.stroke();
+dd.restore();
+
+//右胳膊
+dd.save();
+dd.beginPath();
+dd.lineWidth = 40;
+dd.lineCap = 'round';
+// dd.restore();
+//xiabi
+dd.moveTo(380,160);
+dd.strokeStyle = 'green';
+//qibi
+dd.lineTo(380,280);
+dd.stroke();
+dd.restore();
+
+//身体
+dd.save();
+dd.beginPath();
+dd.fillStyle = 'green';
+dd.moveTo(150,150);
+dd.arcTo(150,150,200,150,0);
+dd.arcTo(350,150,400,150,0);
+dd.arcTo(350,350,300,350,50);
+dd.arcTo(150,350,150,300,50);
+dd.fill();
+dd.restore();
+
+//左腿
+dd.save();
+dd.beginPath();
+dd.lineWidth = 40;
+dd.lineCap = 'round';
+dd.moveTo(200,350);
+dd.lineTo(200,450);
+dd.stroke();
+dd.restore();
+
+//右腿
+dd.save();
+dd.beginPath();
+dd.lineWidth = 40;
+dd.lineCap = 'round';
+dd.moveTo(300,350);
+dd.lineTo(300,450);
+dd.stroke();
+dd.restore();
+
+//左眼睛
+dd.save();
+dd.beginPath();
+dd.fillStyle = 'white';
+dd.arc(200,100,10,0,Math.PI * 2,);
+dd.fill();
+dd.restore();
+//右眼睛
+dd.save();
+dd.beginPath();
+dd.fillStyle = 'white';
+dd.arc(300,100,10,0,Math.PI / 180 * 360);
+dd.fill();
+dd.restore();
+</script>
+</html>
